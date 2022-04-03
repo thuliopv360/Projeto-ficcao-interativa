@@ -59,7 +59,7 @@ let status = {
         console.log(`Voce almoçou e sua fome e ${this.fome} e sede ${this.sede}`);
     },
     beberAgua: function() {
-        this.sede + 100;
+        this.sede += 100;
         passarTempo(0, 0, 0, 30);
     }
 }
@@ -127,10 +127,12 @@ function trabalhar() {
     console.log(`Voce tem  R$${status.dinheiro},00 acumulado na sua conta `);
 }
 
-function trabalhoProgramador() {
-    console.log("Voce agora é um porgramador");
-    console.log("E recebe R$200,00 por dia de trabalho ");
-    status.dinheiro += 200
+
+function trabalharDeProgramador() {
+    status.dinheiro += 200;
+    passarTempo(0, 6, 0, 0);
+    statusPersonagem();
+    mostrarTempo();
 }
 
 function dormirATarde() {
@@ -188,7 +190,7 @@ function estudar() {
 
 console.log(`${personagem} acorda as ${tempo.hora}:${tempo.minuto}:${tempo.dia}todo dia `);
 console.log(`${personagem} trabalha em uma empresa da familia tendo a opcao de ir trabalhar ou ficar em casa `);
-console.log(`Ele tambem estuda para ser um programador famoso e para ter uma vida melhor e dar uma vida melhor para seus pais`);
+console.log(`Ele tambem estuda para ser um programador, e para ter uma vida melhor e dar uma vida melhor para seus pais`);
 console.log("Ele trabalha a dia ganhando 50 reais ");
 console.log("Seu sonho e alcancar o primeiro milhao na conta ");
 
@@ -251,7 +253,56 @@ do {
                 console.log(`Voce ficou a noite toda assistindo filme e dormiu ate as ${tempo.hora} horas`);
             }
         }
-    } else {
-        console.log("Agora voce e um programador");
+    } else if (status.inteligencia < 200) {
+        console.log("Voce agora é um porgramador");
+        console.log("E trabalha na famosa google");
+        console.log("E recebe R$200,00 por dia de trabalho e trabalha 6 horas por dia ");
+        let perguntaAlmoco;
+        let perguntaDormir;
+        let perguntaProgramador = prompt("Deseja ir trabalhar ?").toLowerCase();
+        if (perguntaProgramador == "sim" || perguntaProgramador == "s" || perguntaProgramador == "claro") {
+            trabalharDeProgramador();
+            perguntaAlmoco = prompt("Deseja ir almocar? ");
+            if (perguntaAlmoco == "sim" || perguntaAlmoco == "s" || perguntaAlmoco == "claro") {
+                status.comer();
+                mostrarTempo();
+                perguntaDormir = prompt("Deseja dormir, estudar ou jogar? ").toLowerCase();
+                if (perguntaDormir == "dormir" || perguntaDormir == "d") {
+                    dormirATarde();
+                } else if (perguntaDormir == "estudar" || perguntaDormir == "e") {
+                    estudar();
+                } else if (perguntaDormir == "jogar" || perguntaDormir == "j") {
+                    jogar();
+                } else {
+                    console.log(`${personagem} Foi ler um livro `);
+                    status.inteligencia++;
+                    passarTempo(0, 1, 0, 0);
+                    mostrarTempo();
+                    statusPersonagem();
+                }
+            } else if (perguntaDormir == "dormir" || perguntaDormir == "d") {
+                dormirATarde();
+            } else if (perguntaDormir == "estudar" || perguntaDormir == "e") {
+                estudar();
+            } else if (perguntaDormir == "jogar" || perguntaDormir == "j") {
+                jogar();
+            } else {
+                console.log(`${personagem} Foi ler um livro `);
+                status.inteligencia++;
+                passarTempo(0, 1, 0, 0);
+                mostrarTempo();
+                statusPersonagem();
+            }
+        } else if (perguntaProgramador == "nao" || perguntaProgramador == "n") {
+            console.log(`Hoje ${personagem} tirou o dia para ficar em casa `);
+            let perguntaJogar;
+            let perguntaNaoFoiTrabalhar = prompt("Deseja ir almocar? ").toLowerCase();
+            if (perguntaNaoFoiTrabalhar == "sim" || perguntaNaoFoiTrabalhar == "s" || perguntaNaoFoiTrabalhar == "claro") {
+                status.comer();
+                perguntaJogar = prompt("Deseja ir jogar? ");
+                if (perguntaJogar == "sim" || perguntaNaoFoiTrabalhar == "s" || perguntaNaoFoiTrabalhar == "claro") { jogar() }
+            } else if (perguntaNaoFoiTrabalhar == "nao" || perguntaNaoFoiTrabalhar == "n") {}
+
+        }
     }
 } while (true);
