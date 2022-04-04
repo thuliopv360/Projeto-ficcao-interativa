@@ -2,7 +2,6 @@ console.clear();
 const prompt = require("prompt-sync")();
 
 
-const personagem = prompt("Digite o nome do seu personagem: ");
 
 let tempo = {
     dia: 0,
@@ -75,9 +74,11 @@ function statusPersonagem() {
 }
 
 function jogar() {
+    console.clear();
     let perguntaTrabalhar;
     let aleatorio = Math.floor(Math.random() * 10);
     let pergunta = +prompt("Deseja jogar 1 hora 2 horas ou 3 horas? ");
+    let contador = 0;
     if (pergunta == 1) {
         passarTempo(0, 1, 0, 0);
         console.log("Voce jogou 1 hora ");
@@ -86,10 +87,16 @@ function jogar() {
         perguntaTrabalhar = prompt("Mesmo estando atrasado deseja ir trabalhar? ");
         mostrarTempo();
         statusPersonagem();
-        if (perguntaTrabalhar == "sim" || perguntaTrabalhar == "s" || perguntaTrabalhar == "claro") {
-            trabalhar();
-        } else if (perguntaTrabalhar == "nao" || perguntaTrabalhar == "n") {
-            console.log("Voce nao quis ir trabalhar")
+        contador++;
+        if (contador == 0) {
+            if (perguntaTrabalhar == "sim" || perguntaTrabalhar == "s" || perguntaTrabalhar == "claro") {
+                trabalhar();
+            } else if (perguntaTrabalhar == "nao" || perguntaTrabalhar == "n") {
+                console.log("Voce nao quis ir trabalhar");
+            }
+        } else {
+            console.log("Voce ja trabalhou hoje");
+            statusPersonagem();
         }
     } else if (pergunta == 2) {
         passarTempo(0, 2, 0, 0);
@@ -117,6 +124,7 @@ function jogar() {
 }
 
 function trabalhar() {
+    console.clear();
     console.log(`${personagem} Resolveu ir trabalhar `);
     passarTempo(0, 8, 0, 0);
     status.dinheiro += 50;
@@ -129,6 +137,7 @@ function trabalhar() {
 
 
 function trabalharDeProgramador() {
+    console.clear();
     status.dinheiro += 200;
     passarTempo(0, 6, 0, 0);
     statusPersonagem();
@@ -136,6 +145,7 @@ function trabalharDeProgramador() {
 }
 
 function dormirATarde() {
+    console.clear();
     let aleatorio = Math.floor(Math.random() * 10);
     if (aleatorio == 1) {
         passarTempo(0, 0, 30, 0);
@@ -171,6 +181,7 @@ function dormirATarde() {
 }
 
 function mercado() {
+    console.clear();
     passarTempo(0, 2, 0, 0);
     status.dinheiro -= 200;
     console.log(`Voce gastou R$ 200,00 e agora tem R$${status.dinheiro},00`);
@@ -179,6 +190,7 @@ function mercado() {
 }
 
 function estudar() {
+    console.clear();
     console.log(`Voce esta estudando `);
     status.inteligencia += 10;
     status.fome -= 90;
@@ -188,8 +200,9 @@ function estudar() {
     mostrarTempo();
 }
 
+const personagem = prompt("Digite o nome do seu personagem: ");
 
-console.log(`${personagem} acorda as ${tempo.hora}:${tempo.minuto}:${tempo.dia}todo dia `);
+console.log(`${personagem} acorda as ${tempo.hora}:${tempo.minuto}:${tempo.dia} todo dia `);
 console.log(`${personagem} trabalha em uma empresa da familia tendo a opcao de ir trabalhar ou ficar em casa `);
 console.log(`Ele tambem estuda para ser um programador, e para ter uma vida melhor e dar uma vida melhor para seus pais`);
 console.log("Ele trabalha a dia ganhando 50 reais ");
@@ -197,9 +210,9 @@ console.log("Seu sonho e alcancar o primeiro milhao na conta ");
 
 
 
+
 do {
     if (status.inteligencia < 100) {
-        console.clear();
         mostrarTempo();
         statusPersonagem();
         let resposta = prompt("Deseja ir Trabalhar, estudar ou jogar? ").toLowerCase();
@@ -211,7 +224,6 @@ do {
             estudar();
         } else {
             console.log("Resposta errada");
-
         }
         let respostaEstudar;
         let respostaDormir;
@@ -241,10 +253,8 @@ do {
                 jogar();
             }
         }
-
         let perguntaParaCompletarOHorario;
         for (let i = tempo.hora; i <= 20; i++) {
-            console.log("Entrou no for ")
             mostrarTempo();
             perguntaParaCompletarOHorario = prompt(`${personagem} Deseja estudar ou ler um livro? `).toLowerCase();
             if (perguntaParaCompletarOHorario == "estudar" || perguntaParaCompletarOHorario == "e") {
@@ -263,7 +273,6 @@ do {
                 statusPersonagem();
             }
         }
-
         mostrarTempo();
         if (tempo.hora > 20) {
             console.clear();
@@ -334,7 +343,6 @@ do {
                 perguntaJogar = prompt("Deseja ir jogar? ");
                 if (perguntaJogar == "sim" || perguntaNaoFoiTrabalhar == "s" || perguntaNaoFoiTrabalhar == "claro") { jogar() }
             } else if (perguntaNaoFoiTrabalhar == "nao" || perguntaNaoFoiTrabalhar == "n") {}
-
         }
     }
 } while (true);
