@@ -56,10 +56,8 @@ let status = {
         this.sede = 1000;
         passarTempo(0, 2, 0, 0);
         console.log(`Voce almoçou e sua fome e ${this.fome} e sede ${this.sede}`);
-    },
-    beberAgua: function() {
-        this.sede += 100;
-        passarTempo(0, 0, 0, 30);
+        statusPersonagem();
+        console.log();
     }
 }
 
@@ -70,7 +68,7 @@ function mostrarTempo() {
 }
 
 function statusPersonagem() {
-    console.log(`${personagem} esta com ${status.fome} fome e ${status.sede} de sede e ${status.inteligencia} de inteligencia e tem R$${status.dinheiro}`);
+    console.log(`${personagem} esta com \n ${status.fome} fome \n ${status.sede} de sede \n ${status.inteligencia} de inteligencia \n com R$${status.dinheiro}`);
 }
 
 function jogar() {
