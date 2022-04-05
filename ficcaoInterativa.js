@@ -2,7 +2,6 @@ console.clear();
 const prompt = require("prompt-sync")();
 
 
-const personagem = prompt("Digite o nome do seu personagem: ");
 
 let tempo = {
     dia: 0,
@@ -67,16 +66,16 @@ let status = {
 passarTempo(0, 7, 0, 0);
 
 function mostrarTempo() {
-    console.log(`Agora sao ${tempo.hora} horas ${tempo.minuto} minutos ${tempo.segundo} segundos do dia ${tempo.dia}`);
+    console.log(`Sao ${tempo.hora} horas ${tempo.minuto} minutos ${tempo.segundo} segundos do dia ${tempo.dia}`);
 }
 
 function statusPersonagem() {
-    console.log(`${personagem} esta com ${status.fome} fome e ${status.sede} de sede e ${status.inteligencia} de inteligencia`);
+    console.log(`${personagem} esta com ${status.fome} fome e ${status.sede} de sede e ${status.inteligencia} de inteligencia e tem R$${status.dinheiro}`);
 }
 
 function jogar() {
     let perguntaTrabalhar;
-    let aleatorio = Math.floor(Math.random() * 10);
+    let aleatorio1 = Math.floor(Math.random() * 10);
     let pergunta = +prompt("Deseja jogar 1 hora 2 horas ou 3 horas? ");
     if (pergunta == 1) {
         passarTempo(0, 1, 0, 0);
@@ -89,7 +88,7 @@ function jogar() {
         if (perguntaTrabalhar == "sim" || perguntaTrabalhar == "s" || perguntaTrabalhar == "claro") {
             trabalhar();
         } else if (perguntaTrabalhar == "nao" || perguntaTrabalhar == "n") {
-            console.log("Voce nao quis ir trabalhar")
+            console.log("Voce nao quis ir trabalhar");
         }
     } else if (pergunta == 2) {
         passarTempo(0, 2, 0, 0);
@@ -105,7 +104,7 @@ function jogar() {
         status.sede -= 150;
         mostrarTempo();
         statusPersonagem();
-    } else if (aleatorio == 5) {
+    } else if (aleatorio1 == 5) {
         passarTempo(0, 20, 0, 0);
         console.log(`Voce se entreteu o bastante para jogar o dia todo e foi dormir`);
         tempo.dormir();
@@ -117,14 +116,16 @@ function jogar() {
 }
 
 function trabalhar() {
-    console.log(`${personagem} Resolveu ir trabalhar `);
-    passarTempo(0, 8, 0, 0);
-    status.dinheiro += 50;
-    status.fome -= 500;
-    status.sede -= 500;
-    mostrarTempo();
-    statusPersonagem();
-    console.log(`Voce tem  R$${status.dinheiro},00 acumulado na sua conta `);
+    for (let i = 0; i < 1; i++) {
+        console.log(`${personagem} Resolveu ir trabalhar `);
+        passarTempo(0, 8, 0, 0);
+        status.dinheiro += 50;
+        status.fome -= 500;
+        status.sede -= 500;
+        mostrarTempo();
+        statusPersonagem();
+        console.log(`Voce tem  R$${status.dinheiro},00 acumulado na sua conta `);
+    }
 }
 
 
@@ -180,26 +181,75 @@ function mercado() {
 
 function estudar() {
     console.log(`Voce esta estudando `);
-    status.inteligencia++;
+    status.inteligencia += 5;
     status.fome -= 90;
     status.sede -= 90;
     passarTempo(0, 3, 0, 0);
     statusPersonagem();
+    mostrarTempo();
 }
 
+const personagem = prompt("Digite o nome do seu personagem: ");
 
-console.log(`${personagem} acorda as ${tempo.hora}:${tempo.minuto}:${tempo.dia}todo dia `);
+console.log(`${personagem} acorda as ${tempo.hora}:${tempo.minuto}:${tempo.dia} todo dia `);
 console.log(`${personagem} trabalha em uma empresa da familia tendo a opcao de ir trabalhar ou ficar em casa `);
 console.log(`Ele tambem estuda para ser um programador, e para ter uma vida melhor e dar uma vida melhor para seus pais`);
 console.log("Ele trabalha a dia ganhando 50 reais ");
-console.log("Seu sonho e alcancar o primeiro milhao na conta ");
 
+function dormirANoite() {
+    if (tempo.hora >= 20) {
+        let dormirANoite = prompt(`Já sao ${tempo.hora}:${tempo.minuto}:${tempo.segundo} deseja ir dormir? `).toLowerCase();
+        console.log();
+        if (dormirANoite == "sim" || dormirANoite == "s" || dormirANoite == "claro") {
+            tempo.dormir();
+            status.fome -= 100;
+            status.sede -= 100;
+            mostrarTempo();
+            statusPersonagem();
+        } else if (dormirANoite == "nao" || dormirANoite == "n") {
+            status.fome -= 500;
+            status.sede -= 500;
+            tempo.naodormir();
+            console.log(`Voce ficou a noite toda assistindo filme e dormiu ate as ${tempo.hora} horas`);
+        }
+    }
+}
 
+function programadorMaster() {
+    status.dinheiro += 1000;
+    passarTempo(0, 3, 0, 0);
+    statusPersonagem();
+    mostrarTempo();
+}
+
+let programador = false;
+let senior = false;
+
+function rodarAteCompletarHorario() {
+    while (tempo.hora <= 20) {
+        mostrarTempo();
+        console.log();
+        perguntaParaCompletarOHorario = prompt(`${personagem} Deseja estudar ou ler um livro? `).toLowerCase();
+        if (perguntaParaCompletarOHorario == "estudar" || perguntaParaCompletarOHorario == "e") {
+            estudar();
+        } else if (perguntaParaCompletarOHorario == "ler" || perguntaParaCompletarOHorario == "ler um livro" || perguntaParaCompletarOHorario == "l") {
+            passarTempo(0, 1, 0, 0);
+            mostrarTempo();
+            statusPersonagem();
+        } else {
+            passarTempo(0, 2, 0, 0);
+            console.log("Voce ficou mexendo no celular por 2 horas");
+            mostrarTempo();
+            statusPersonagem();
+        }
+    }
+}
 
 do {
     if (status.inteligencia < 100) {
         mostrarTempo();
         statusPersonagem();
+        console.log();
         let resposta = prompt("Deseja ir Trabalhar, estudar ou jogar? ").toLowerCase();
         if (resposta == "t" || resposta == "trabalhar") {
             trabalhar();
@@ -209,10 +259,10 @@ do {
             estudar();
         } else {
             console.log("Resposta errada");
-
         }
         let respostaEstudar;
         let respostaDormir;
+        console.log();
         let desejaAlmocar = prompt("Deseja ir almocar? ").toLowerCase();
         if (desejaAlmocar == "sim" || desejaAlmocar == "s" || desejaAlmocar == "claro") {
             status.comer();
@@ -237,29 +287,22 @@ do {
                 jogar();
             }
         }
-        mostrarTempo()
-        if (tempo.hora > 20) {
-            let dormirANoite = prompt(`Já sao ${tempo.hora}:${tempo.minuto}:${tempo.segundo} deseja ir dormir? `).toLowerCase();
-            if (dormirANoite == "sim" || dormirANoite == "s" || dormirANoite == "claro") {
-                tempo.dormir();
-                status.fome -= 100;
-                status.sede -= 100;
-                mostrarTempo();
-                statusPersonagem();
-            } else if (dormirANoite == "nao" || dormirANoite == "n") {
-                status.fome -= 500;
-                status.sede -= 500;
-                tempo.naodormir();
-                console.log(`Voce ficou a noite toda assistindo filme e dormiu ate as ${tempo.hora} horas`);
-            }
-        }
+        let perguntaParaCompletarOHorario;
+        rodarAteCompletarHorario(perguntaParaCompletarOHorario);
+        mostrarTempo();
+        dormirANoite();
+        console.log();
     } else if (status.inteligencia < 200) {
-        console.log("Voce agora é um porgramador");
-        console.log("E trabalha na famosa google");
-        console.log("E recebe R$200,00 por dia de trabalho e trabalha 6 horas por dia ");
+        if (programador == false) {
+            console.log("Voce agora é um porgramador");
+            console.log("E trabalha na famosa google");
+            console.log("E recebe R$200,00 por dia de trabalho e trabalha 6 horas por dia ");
+            console.log();
+            programador = true;
+        }
         let perguntaAlmoco;
         let perguntaDormir;
-        let perguntaProgramador = prompt("Deseja ir trabalhar ?").toLowerCase();
+        let perguntaProgramador = prompt("Deseja ir trabalhar? ").toLowerCase();
         if (perguntaProgramador == "sim" || perguntaProgramador == "s" || perguntaProgramador == "claro") {
             trabalharDeProgramador();
             perguntaAlmoco = prompt("Deseja ir almocar? ");
@@ -275,17 +318,11 @@ do {
                     jogar();
                 } else {
                     console.log(`${personagem} Foi ler um livro `);
-                    status.inteligencia++;
+                    status.inteligencia += 2;
                     passarTempo(0, 1, 0, 0);
                     mostrarTempo();
                     statusPersonagem();
                 }
-            } else if (perguntaDormir == "dormir" || perguntaDormir == "d") {
-                dormirATarde();
-            } else if (perguntaDormir == "estudar" || perguntaDormir == "e") {
-                estudar();
-            } else if (perguntaDormir == "jogar" || perguntaDormir == "j") {
-                jogar();
             } else {
                 console.log(`${personagem} Foi ler um livro `);
                 status.inteligencia++;
@@ -294,15 +331,70 @@ do {
                 statusPersonagem();
             }
         } else if (perguntaProgramador == "nao" || perguntaProgramador == "n") {
+            console.clear();
             console.log(`Hoje ${personagem} tirou o dia para ficar em casa `);
             let perguntaJogar;
-            let perguntaNaoFoiTrabalhar = prompt("Deseja ir almocar? ").toLowerCase();
-            if (perguntaNaoFoiTrabalhar == "sim" || perguntaNaoFoiTrabalhar == "s" || perguntaNaoFoiTrabalhar == "claro") {
+            let perguntaNaoFoiTrabalhar;
+            let perguntaSeFoiTrabalhar = prompt("Deseja ir almocar? ").toLowerCase();
+            if (perguntaSeFoiTrabalhar == "sim" || perguntaSeFoiTrabalhar == "s" || perguntaSeFoiTrabalhar == "claro") {
                 status.comer();
                 perguntaJogar = prompt("Deseja ir jogar? ");
-                if (perguntaJogar == "sim" || perguntaNaoFoiTrabalhar == "s" || perguntaNaoFoiTrabalhar == "claro") { jogar() }
-            } else if (perguntaNaoFoiTrabalhar == "nao" || perguntaNaoFoiTrabalhar == "n") {}
-
+                if (perguntaJogar == "sim" || perguntaSeFoiTrabalhar == "s" || perguntaSeFoiTrabalhar == "claro") { jogar() }
+            } else if (perguntaSeFoiTrabalhar == "nao" || perguntaSeFoiTrabalhar == "n") {
+                perguntaNaoFoiTrabalhar = prompt("Deseja jogar ou estudar? ").toLowerCase();
+                if (perguntaNaoFoiTrabalhar == "jogar" || perguntaNaoFoiTrabalhar == "j") {
+                    jogar();
+                } else if (perguntaNaoFoiTrabalhar == "estudar" || perguntaNaoFoiTrabalhar == "e") {}
+            }
         }
+        let perguntaParaCompletarOHorario;
+        rodarAteCompletarHorario(perguntaParaCompletarOHorario);
+        mostrarTempo();
+        dormirANoite();
+    } else if (status.inteligencia >= 200) {
+        if (senior == false) {
+            console.log(`${personagem} Agora e um programador senior `);
+            console.log(`E agora ele recebe R$1000,00 por dia para trabalhar 3 horas por dia`);
+            console.log(`${personagem} e um(a) professor que ensina programacao no valle do silício`);
+            senior = true;
+        }
+        let completarHorario;
+        let esenao;
+        let perguntaEnsinar = prompt("Voce deseja ir trabalhar hoje? ").toLowerCase();
+        let random = Math.floor(Math.random() * 10);
+        if (perguntaEnsinar == "sim" || perguntaEnsinar == "s" || perguntaEnsinar == "claro") {
+            programadorMaster();
+            completarHorario = prompt("Deseja jogar, dormir, estudar ou ir ao mercado").toLowerCase();
+            if (completarHorario == "jogar" || completarHorario == "j") {
+                jogar();
+            } else if (completarHorario == "dormir" || completarHorario == "d") {
+                dormirATarde();
+            } else if (completarHorario == "estudar" || completarHorario == "e") {
+                estudar();
+            } else if (completarHorario == "mercado" || completarHorario == "ir ao mercado" || completarHorario == "m") {
+                mercado();
+            } else if (random == 3) {
+                passarTempo(0, 10, 0, 0);
+                console.log(`${personagem} Ficou preso no transito por 10 horas`);
+            } else {
+                console.log("resposta errada")
+            }
+        } else if (perguntaEnsinar == "nao" || perguntaEnsinar == "n") {
+            console.log(`${personagem} resolveu ficar em casa `);
+            console.log(`oque deseja fazer?`);
+            esenao = prompt("Deseja estudar \n dormir \n ou ir ao mercado? ").toLowerCase();
+            if (esenao == "estudar" || esenao == "e") {
+                estudar();
+            } else if (esenao == "dormir" || esenao == "d") {
+                dormir();
+            } else if (esenao == "mercado" || esenao == "ir ao mercado" || esenao == "m") {
+                mercado();
+            }
+        }
+        let perguntaParaCompletarOHorario;
+        rodarAteCompletarHorario(perguntaParaCompletarOHorario);
+        mostrarTempo();
+        dormirANoite();
     }
-} while (true);
+}
+while (true);
