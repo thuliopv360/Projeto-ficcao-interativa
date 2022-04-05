@@ -49,7 +49,7 @@ function passarTempo(day, hour, min, seg) {
 let status = {
     fome: 1000,
     sede: 1000,
-    inteligencia: 0,
+    inteligencia: 180,
     dinheiro: 0,
     comer: function() {
         this.fome = 1000;
@@ -357,7 +357,7 @@ do {
             senior = true;
         }
         let completarHorario;
-        let esenao;
+        let perguntaDormirOuIrAoMercado;
         let perguntaEnsinar = prompt("Voce deseja ir trabalhar hoje? ").toLowerCase();
         let random = Math.floor(Math.random() * 10);
         if (perguntaEnsinar == "sim" || perguntaEnsinar == "s" || perguntaEnsinar == "claro") {
@@ -380,12 +380,12 @@ do {
         } else if (perguntaEnsinar == "nao" || perguntaEnsinar == "n") {
             console.log(`${personagem} resolveu ficar em casa `);
             console.log(`oque deseja fazer?`);
-            esenao = prompt("Deseja estudar \n dormir \n ou ir ao mercado? ").toLowerCase();
-            if (esenao == "estudar" || esenao == "e") {
+            perguntaDormirOuIrAoMercado = prompt("Deseja estudar \n dormir \n ou ir ao mercado? ").toLowerCase();
+            if (perguntaDormirOuIrAoMercado == "estudar" || perguntaDormirOuIrAoMercado == "e") {
                 estudar();
-            } else if (esenao == "dormir" || esenao == "d") {
+            } else if (perguntaDormirOuIrAoMercado == "dormir" || perguntaDormirOuIrAoMercado == "d") {
                 dormir();
-            } else if (esenao == "mercado" || esenao == "ir ao mercado" || esenao == "m") {
+            } else if (perguntaDormirOuIrAoMercado == "mercado" || perguntaDormirOuIrAoMercado == "ir ao mercado" || perguntaDormirOuIrAoMercado == "m") {
                 mercado();
             }
         }
