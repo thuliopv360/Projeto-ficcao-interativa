@@ -49,7 +49,7 @@ function passarTempo(day, hour, min, seg) {
 let status = {
     fome: 1000,
     sede: 1000,
-    inteligencia: 180,
+    inteligencia: 0,
     dinheiro: 0,
     comer: function() {
         this.fome = 1000;
